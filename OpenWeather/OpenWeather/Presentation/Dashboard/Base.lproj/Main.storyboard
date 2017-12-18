@@ -44,10 +44,19 @@
                                     <action selector="offlineSwitchWasChangedWithSender:" destination="BYZ-38-t0r" eventType="valueChanged" id="1aO-fV-qwN"/>
                                 </connections>
                             </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Offline Mode:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wbc-tm-acU">
+                                <rect key="frame" x="51.5" y="621.5" width="103.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="wbc-tm-acU" firstAttribute="centerY" secondItem="GTN-ew-HhC" secondAttribute="centerY" id="JBO-YI-1cm"/>
                             <constraint firstItem="hTg-m9-IC5" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="Vkb-1g-eNQ"/>
+                            <constraint firstItem="GTN-ew-HhC" firstAttribute="leading" secondItem="wbc-tm-acU" secondAttribute="trailing" constant="8" id="Win-vF-Rht"/>
+                            <constraint firstItem="wbc-tm-acU" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" symbolic="YES" id="XDG-4f-QRH"/>
                             <constraint firstAttribute="bottom" secondItem="GTN-ew-HhC" secondAttribute="bottom" constant="20" symbolic="YES" id="YuN-eh-JRy"/>
                             <constraint firstItem="hTg-m9-IC5" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="cTo-r2-kod"/>
                             <constraint firstItem="GTN-ew-HhC" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="dwL-c4-KSD"/>
