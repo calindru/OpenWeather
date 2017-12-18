@@ -8,35 +8,37 @@
 
 import UIKit
 
+typealias ForecastsViewModelCompletion = (ForecastsViewModeling) -> Void
+
 protocol ForecastsDataSourcing: UICollectionViewDataSource {
-    func getForecasts()
+    func getForecasts(completion: @escaping ForecastsViewModelCompletion)
 }
 
 class ForecastsDataSource: NSObject, UICollectionViewDataSource, ForecastsDataSourcing {
-    var forecasts: Forecasts?
-    var forecastsCollectionView: UICollectionView!
-    
+    var forecastsViewModel: ForecastsViewModel?
+
     init(collectionView: UICollectionView) {
         super.init()
-        self.forecastsCollectionView = collectionView
+        collectionView.dataSource = self
     }
     
     // MARK: - Internal methods
-    
-    func reloadData() {
-        forecastsCollectionView.reloadData()
-    }
+
     
     // MARK: - ForecastsDataSourcing methods
     
-    func getForecasts() {
+    func getForecasts(completion: @escaping ForecastsViewModelCompletion) {
         
     }
     
     // MARK: - UICollectionViewDataSource methods
     
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return forecastsViewModel?.numberOfRows() ?? 0
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 0
+        return forecastsViewModel?.numberOfCells(row: section) ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

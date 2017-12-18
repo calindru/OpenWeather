@@ -8,17 +8,7 @@
 
 import Foundation
 
-public struct Forecast: Decodable {
-//    enum CodingKeys: String, CodingKey {
-//        case dt = "dt"
-//        case main
-//    }
-    
+public struct Forecast: Decodable {    
     let dt: Int64?
-    let main: ForecastMain
-    
-//    public init(from decoder: Decoder) throws {
-//        self.daytime = try decoder.
-//    }
-    
+    let main: ForecastMain?
 }

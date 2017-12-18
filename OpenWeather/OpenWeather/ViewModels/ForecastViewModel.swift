@@ -12,25 +12,36 @@ protocol ForecastViewModeling {
     var city: String { get }
     var temperature: String { get }
     var time: String { get }
+    var forecastDate: Date? { get set }
+    
+    init(forecast: Forecast, city: String)
 }
 
 class ForecastViewModel: NSObject, ForecastViewModeling {
     var time = ""
     var city = ""
     var temperature = ""
+    var forecastDate: Date?
     
     struct Formatter {
-        static let dateFormatter: DateFormatter = {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "dd.MM.yyyy"
-            return dateFormatter
-        }()
         static let timeFormatter: DateFormatter = {
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "hh:mm"
+            dateFormatter.dateFormat = "HH:mm"
             return dateFormatter
         }()
     }
     
-    
+    required init(forecast: Forecast, city: String) {
+        self.city = city
+        
+        if let daytime = forecast.dt {
+            let date = Date(timeIntervalSince1970: Double(daytime))
+            forecastDate = date
+            self.time = Formatter.timeFormatter.string(from: date)
+        }
+        
+        if let main = forecast.main {
+            self.temperature = String(main.temp)
+        }
+    }
 }

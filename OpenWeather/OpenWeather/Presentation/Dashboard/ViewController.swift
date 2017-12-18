@@ -16,13 +16,12 @@ class ViewController: UIViewController {
     var offlineMode = false
     var dataSource: ForecastsDataSource!
     
+    var viewModel: ForecastsViewModeling?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let offlineSwitch = offlineSwitch {
-            reloadForecastsViews(offline: offlineSwitch.isOn)
-        }
+        reloadForecastsViews(offline: offlineSwitch?.isOn ?? false)
     }
 
     // MARK: - User actions
@@ -33,11 +32,23 @@ class ViewController: UIViewController {
     
     // MARK: - Private methods
     
+    fileprivate func fillUI() {        
+        guard isViewLoaded, viewModel != nil else {
+            return
+        }
+        
+        forecastsCollection?.reloadData()
+    }
+    
     fileprivate func reloadForecastsViews(offline: Bool) {
         guard let collectionView = forecastsCollection else { return }
         
         dataSource = offline ? ForecastsLocalDataSource(collectionView: collectionView) : ForecastsWebDataSource(collectionView: collectionView)
-        dataSource.getForecasts()
+        dataSource.getForecasts(completion: { [weak self] (viewModel: ForecastsViewModeling) in
+            guard let strongSelf = self else { return }
+            strongSelf.viewModel = viewModel
+            strongSelf.fillUI()
+        })
     }
 }
 

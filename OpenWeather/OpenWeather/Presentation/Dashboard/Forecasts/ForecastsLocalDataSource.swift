@@ -9,7 +9,7 @@
 import Foundation
 
 class ForecastsLocalDataSource: ForecastsDataSource {    
-    override func getForecasts() {
+    override func getForecasts(completion: @escaping ForecastsViewModelCompletion) {
         
     }
 }

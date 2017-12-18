@@ -10,13 +10,17 @@ import UIKit
 
 class ForecastsWebDataSource: ForecastsDataSource {
     
-    override func getForecasts() {
-        ForecastsServices.getForecasts(city: ForecastsConstants.ForecastsCity, countryCode: ForecastsConstants.ForecastsCountryCode) { [weak self] (receivedForecasts: Forecasts?, error: Error?) in
+    override func getForecasts(completion: @escaping ForecastsViewModelCompletion) {
+        let city = ForecastsConstants.ForecastsCity
+        ForecastsServices.getForecasts(city: city, countryCode: ForecastsConstants.ForecastsCountryCode) { [weak self] (receivedForecasts: Forecasts?, error: Error?) in
             guard let strongSelf = self else { return }
-            guard error == nil else { return }
             
-            strongSelf.forecasts = receivedForecasts
-            strongSelf.reloadData()
+            if let forecasts = receivedForecasts {
+                let forecastsViewModel = ForecastsViewModel(forecasts: forecasts, city: city)
+                strongSelf.forecastsViewModel = forecastsViewModel
+                completion(forecastsViewModel)
+            }
+    
         }
     }
 }
