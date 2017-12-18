@@ -10,17 +10,34 @@ import UIKit
 
 class ViewController: UIViewController {
     @IBOutlet weak var forecastsCollection: UICollectionView?
+    @IBOutlet weak var offlineSwitch: UISwitch?
+    
+    var forecasts = [Forecast]()
+    var offlineMode = false
+    var dataSource: ForecastsDataSource!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        if let offlineSwitch = offlineSwitch {
+            reloadForecastsViews(offline: offlineSwitch.isOn)
+        }
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    // MARK: - User actions
+    
+    @IBAction func offlineSwitchWasChanged(sender: UISwitch) {
+        reloadForecastsViews(offline: sender.isOn)
     }
-
-
+    
+    // MARK: - Private methods
+    
+    fileprivate func reloadForecastsViews(offline: Bool) {
+        guard let collectionView = forecastsCollection else { return }
+        
+        dataSource = offline ? ForecastsLocalDataSource(collectionView: collectionView) : ForecastsWebDataSource(collectionView: collectionView)
+        dataSource.getForecasts()
+    }
 }
 

@@ -8,7 +8,33 @@
 
 import UIKit
 
-class ForecastsDataSource: NSObject, UICollectionViewDataSource {
+protocol ForecastsDataSourcing: UICollectionViewDataSource {
+    func getForecasts()
+}
+
+class ForecastsDataSource: NSObject, UICollectionViewDataSource, ForecastsDataSourcing {
+    var forecasts: Forecasts?
+    var forecastsCollectionView: UICollectionView!
+    
+    init(collectionView: UICollectionView) {
+        super.init()
+        self.forecastsCollectionView = collectionView
+    }
+    
+    // MARK: - Internal methods
+    
+    func reloadData() {
+        forecastsCollectionView.reloadData()
+    }
+    
+    // MARK: - ForecastsDataSourcing methods
+    
+    func getForecasts() {
+        
+    }
+    
+    // MARK: - UICollectionViewDataSource methods
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 0
     }
@@ -16,6 +42,4 @@ class ForecastsDataSource: NSObject, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         return UICollectionViewCell()
     }
-    
-
 }
