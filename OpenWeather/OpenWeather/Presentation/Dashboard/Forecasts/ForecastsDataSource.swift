@@ -17,6 +17,11 @@ protocol ForecastsDataSourcing: UICollectionViewDataSource {
 class ForecastsDataSource: NSObject, UICollectionViewDataSource, ForecastsDataSourcing {
     var forecastsViewModel: ForecastsViewModel?
 
+    fileprivate struct Constants {
+        static let forecastsCellReuseIdentifier = "ForecastCell"
+        static let forecastsHeaderReuseIdentifier = "ForecastsHeader"
+    }
+    
     init(collectionView: UICollectionView) {
         super.init()
         collectionView.dataSource = self
@@ -42,6 +47,23 @@ class ForecastsDataSource: NSObject, UICollectionViewDataSource, ForecastsDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return UICollectionViewCell()
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.forecastsCellReuseIdentifier,
+                                                         for: indexPath) as! ForecastCollectionViewCell
+        
+        let forecastViewModel = forecastsViewModel?.forecastViewModel(for: indexPath)
+        cell.temperatureLabel.text = forecastViewModel?.temperature
+        cell.timeLabel.text = forecastViewModel?.time
+        cell.cityLabel.text = forecastViewModel?.city
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Constants.forecastsHeaderReuseIdentifier, for: indexPath) as? ForecastsCollectionViewHeader {
+            sectionHeader.titleLabel.text = forecastsViewModel?.date(at: indexPath.section)
+            
+            return sectionHeader
+        }
+        return UICollectionReusableView()
     }
 }

@@ -9,7 +9,10 @@
 import UIKit
 
 class ForecastCollectionViewCell: UICollectionViewCell {
-
+    @IBOutlet weak var temperatureLabel: UILabel!
+    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var cityLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

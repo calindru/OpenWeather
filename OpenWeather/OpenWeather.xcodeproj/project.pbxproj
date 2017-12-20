@@ -14,6 +14,7 @@
 		FA02EBE61FE722D3001AE0CC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA02EBE51FE722D3001AE0CC /* Constants.swift */; };
 		FA02EBEB1FE73B45001AE0CC /* ForecastsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA02EBEA1FE73B45001AE0CC /* ForecastsViewModel.swift */; };
 		FA02EBED1FE740F1001AE0CC /* ForecastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA02EBEC1FE740F1001AE0CC /* ForecastViewModel.swift */; };
+		FA02EBF61FE9D968001AE0CC /* ForecastsCollectionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA02EBF51FE9D968001AE0CC /* ForecastsCollectionViewHeader.swift */; };
 		FA47198D1FD89D8B00365A40 /* ForecastsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA47198C1FD89D8B00365A40 /* ForecastsDataSource.swift */; };
 		FA4719911FD89EBE00365A40 /* ForecastCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA47198F1FD89EBE00365A40 /* ForecastCollectionViewCell.swift */; };
 		FA4719921FD89EBE00365A40 /* ForecastCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA4719901FD89EBE00365A40 /* ForecastCollectionViewCell.xib */; };
@@ -55,6 +56,7 @@
 		FA02EBE51FE722D3001AE0CC /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		FA02EBEA1FE73B45001AE0CC /* ForecastsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastsViewModel.swift; sourceTree = "<group>"; };
 		FA02EBEC1FE740F1001AE0CC /* ForecastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastViewModel.swift; sourceTree = "<group>"; };
+		FA02EBF51FE9D968001AE0CC /* ForecastsCollectionViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastsCollectionViewHeader.swift; sourceTree = "<group>"; };
 		FA47198C1FD89D8B00365A40 /* ForecastsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastsDataSource.swift; sourceTree = "<group>"; };
 		FA47198F1FD89EBE00365A40 /* ForecastCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastCollectionViewCell.swift; sourceTree = "<group>"; };
 		FA4719901FD89EBE00365A40 /* ForecastCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ForecastCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 			children = (
 				FA47198F1FD89EBE00365A40 /* ForecastCollectionViewCell.swift */,
 				FA4719901FD89EBE00365A40 /* ForecastCollectionViewCell.xib */,
+				FA02EBF51FE9D968001AE0CC /* ForecastsCollectionViewHeader.swift */,
 				FA47198C1FD89D8B00365A40 /* ForecastsDataSource.swift */,
 				FA02EBDE1FE7165E001AE0CC /* ForecastsLocalDataSource.swift */,
 				FA02EBE01FE71673001AE0CC /* ForecastsWebDataSource.swift */,
@@ -382,6 +385,7 @@
 				FA02EBDF1FE7165E001AE0CC /* ForecastsLocalDataSource.swift in Sources */,
 				FA4719A41FDDD8A700365A40 /* BaseModel.swift in Sources */,
 				FA02EBE11FE71673001AE0CC /* ForecastsWebDataSource.swift in Sources */,
+				FA02EBF61FE9D968001AE0CC /* ForecastsCollectionViewHeader.swift in Sources */,
 				FA02EBE61FE722D3001AE0CC /* Constants.swift in Sources */,
 				FA02EBED1FE740F1001AE0CC /* ForecastViewModel.swift in Sources */,
 				FA47199D1FDDCCFC00365A40 /* BaseServices.swift in Sources */,

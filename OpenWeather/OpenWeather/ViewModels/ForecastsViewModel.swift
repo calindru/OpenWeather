@@ -11,15 +11,14 @@ import Foundation
 typealias ForecastDate = String
 
 protocol ForecastsViewModeling {
-    var dates: [ForecastDate] { get }
-    var forecastViewModels: [ForecastDate: [ForecastViewModel]] { get }
-    
     init(forecasts: Forecasts, city: String)
     func numberOfRows() -> Int
     func numberOfCells(row: Int) -> Int
+    func forecastViewModel(for indexPath: IndexPath) -> ForecastViewModel?
+    func date(at index: Int) -> ForecastDate?
 }
 
-class ForecastsViewModel: NSObject, ForecastsViewModeling {
+struct ForecastsViewModel: ForecastsViewModeling {
     var dates = [ForecastDate]()
     var forecastViewModels = [ForecastDate: [ForecastViewModel]]()
     
@@ -31,7 +30,7 @@ class ForecastsViewModel: NSObject, ForecastsViewModeling {
         }()
     }
     
-    required init(forecasts model: Forecasts, city: String) {
+    init(forecasts model: Forecasts, city: String) {
         dates = [ForecastDate]()
         forecastViewModels = [ForecastDate: [ForecastViewModel]]()
         
@@ -39,8 +38,8 @@ class ForecastsViewModel: NSObject, ForecastsViewModeling {
             let forecastViewModel = ForecastViewModel(forecast: forecastData, city: city)
             if let forecastDate = forecastViewModel.forecastDate {
                 let datePretty = Formatter.dateFormatter.string(from: forecastDate)
-                dates.append(datePretty)
-                self.forecastViewModels[datePretty]?.append(forecastViewModel)
+                
+                add(forecastViewModel: forecastViewModel, date: datePretty)
             }
         }
     }
@@ -50,9 +49,43 @@ class ForecastsViewModel: NSObject, ForecastsViewModeling {
     }
     
     func numberOfCells(row: Int) -> Int {
-        guard row < dates.count else { return 0 }
+        if let forecastDate = date(at: row) {
+            return forecastViewModels[forecastDate]?.count ?? 0
+        }
         
-        let forecastDate = dates[row]
-        return forecastViewModels[forecastDate]?.count ?? 0
+        return 0
+    }
+    
+    func forecastViewModel(for indexPath: IndexPath) -> ForecastViewModel? {
+        if let date = self.date(at: indexPath.section),
+            let forecastsList = forecastViewModels[date],
+            indexPath.row < forecastsList.count {
+            
+            return forecastsList[indexPath.row]
+        }
+
+        return nil
+    }
+    
+    func date(at index: Int) -> ForecastDate? {
+        guard index < dates.count else { return nil }
+        
+        return dates[index]
+    }
+    
+    // MARK: - Private methods
+    
+    fileprivate mutating func add(forecastViewModel: ForecastViewModel, date: ForecastDate) {
+        var forecastsGrouping: [ForecastViewModel]
+        
+        if let forecasts = forecastViewModels[date] {
+            forecastsGrouping = forecasts
+        } else {
+            dates.append(date)
+            forecastsGrouping = [ForecastViewModel]()
+        }
+        
+        forecastsGrouping.append(forecastViewModel)
+        forecastViewModels[date] = forecastsGrouping
     }
 }

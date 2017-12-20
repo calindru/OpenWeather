@@ -17,7 +17,7 @@ protocol ForecastViewModeling {
     init(forecast: Forecast, city: String)
 }
 
-class ForecastViewModel: NSObject, ForecastViewModeling {
+struct ForecastViewModel: ForecastViewModeling {
     var time = ""
     var city = ""
     var temperature = ""
@@ -31,7 +31,7 @@ class ForecastViewModel: NSObject, ForecastViewModeling {
         }()
     }
     
-    required init(forecast: Forecast, city: String) {
+    init(forecast: Forecast, city: String) {
         self.city = city
         
         if let daytime = forecast.dt {
