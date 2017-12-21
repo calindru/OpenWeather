@@ -10,6 +10,7 @@ import UIKit
 
 class ForecastCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var temperatureLabel: UILabel!
+    @IBOutlet weak var temperatureUnitsLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
     

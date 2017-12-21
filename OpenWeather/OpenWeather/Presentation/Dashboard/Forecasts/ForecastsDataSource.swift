@@ -54,6 +54,7 @@ class ForecastsDataSource: NSObject, UICollectionViewDataSource, ForecastsDataSo
         cell.temperatureLabel.text = forecastViewModel?.temperature
         cell.timeLabel.text = forecastViewModel?.time
         cell.cityLabel.text = forecastViewModel?.city
+        cell.temperatureUnitsLabel.isHidden = forecastViewModel?.temperature.count == 0
         
         return cell
     }

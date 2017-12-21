@@ -112,6 +112,7 @@
                                         <connections>
                                             <outlet property="cityLabel" destination="38U-1e-dmF" id="Dge-t5-eeb"/>
                                             <outlet property="temperatureLabel" destination="Qbb-NP-c85" id="8mG-Hp-93U"/>
+                                            <outlet property="temperatureUnitsLabel" destination="Vs2-NC-L6w" id="WvP-Fg-Q2r"/>
                                             <outlet property="timeLabel" destination="Aef-9i-F6X" id="ikS-rc-VI8"/>
                                         </connections>
                                     </collectionViewCell>
@@ -174,7 +175,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="117.5" y="116.5"/>
+            <point key="canvasLocation" x="116" y="116.49175412293854"/>
         </scene>
     </scenes>
 </document>
