@@ -13,10 +13,21 @@ class ViewController: UIViewController {
     @IBOutlet weak var offlineSwitch: UISwitch?
     
     var forecasts = [Forecast]()
-    var offlineMode = false
+    var offlineMode: Bool {
+        get {
+            return offlineSwitch?.isOn ?? false
+        }
+    }
+    
     var dataSource: ForecastsDataSource!
     
-    var viewModel: ForecastsViewModeling?
+    var viewModel: ForecastsViewModeling? {
+        didSet {
+            if let viewModel = viewModel as? ForecastsViewModel, !offlineMode {
+                ForecastsManager.persistForecasts(forecasts: viewModel)
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +55,7 @@ class ViewController: UIViewController {
         guard let collectionView = forecastsCollection else { return }
         
         dataSource = offline ? ForecastsLocalDataSource(collectionView: collectionView) : ForecastsWebDataSource(collectionView: collectionView)
-        dataSource.getForecasts(completion: { [weak self] (viewModel: ForecastsViewModeling) in
+        dataSource.getForecasts(completion: { [weak self] (viewModel: ForecastsViewModeling?) in
             guard let strongSelf = self else { return }
             strongSelf.viewModel = viewModel
             strongSelf.fillUI()

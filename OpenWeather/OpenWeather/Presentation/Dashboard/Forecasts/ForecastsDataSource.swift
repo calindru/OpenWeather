@@ -8,7 +8,7 @@
 
 import UIKit
 
-typealias ForecastsViewModelCompletion = (ForecastsViewModeling) -> Void
+typealias ForecastsViewModelCompletion = (ForecastsViewModeling?) -> Void
 
 protocol ForecastsDataSourcing: UICollectionViewDataSource {
     func getForecasts(completion: @escaping ForecastsViewModelCompletion)
@@ -26,9 +26,6 @@ class ForecastsDataSource: NSObject, UICollectionViewDataSource, ForecastsDataSo
         super.init()
         collectionView.dataSource = self
     }
-    
-    // MARK: - Internal methods
-
     
     // MARK: - ForecastsDataSourcing methods
     

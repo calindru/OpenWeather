@@ -44,4 +44,23 @@ struct ForecastViewModel: ForecastViewModeling {
             self.temperature = String(main.temp)
         }
     }
+    
+    init(csvString: String, separator: String, city: String) {
+        self.city = city
+        
+        let forecastDetails = csvString.components(separatedBy: separator)
+        if forecastDetails.count > ForecastsFileFields.time.rawValue {
+            time = forecastDetails[ForecastsFileFields.time.rawValue]
+        }
+        if forecastDetails.count > ForecastsFileFields.temperature.rawValue {
+            temperature = forecastDetails[ForecastsFileFields.temperature.rawValue]
+        }
+    }
+    
+    func csvSerializedString(separator: String) -> String {
+        // Saved information format:
+        // time, temperature
+        // eg. 09:00:00, 291.12
+        return time + separator + temperature
+    }
 }

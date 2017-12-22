@@ -18,22 +18,22 @@ enum BackendError: Error {
 class BaseServices: NSObject {
     static let session = URLSession(configuration: URLSessionConfiguration.default)
     
-    struct BaseServicesConstants {
+    fileprivate struct BaseServicesConstants {
         static let httpProtocol = "http://"
         static let httpsProtocol = "https://"
     }
-    struct ServiceErrorDescriptions {
-        static let BadURLFormat = "Bad URL format: %@"
-        static let NoDataReceived = "No data in response"
-        static let DeserializationError = "Unable to deserialize to type %@"
+    fileprivate struct ServiceErrorDescriptions {
+        static let badURLFormat = "Bad URL format: %@"
+        static let noDataReceived = "No data in response"
+        static let deserializationError = "Unable to deserialize to type %@"
     }
     
     static func callService<T: Decodable>(from urlString: String, completion: @escaping URLRequestClosure<T>) -> Void {
         let lowercaseURL = urlString.lowercased()
         
         guard let url = URL(string: urlString), lowercaseURL.contains(BaseServicesConstants.httpProtocol) || lowercaseURL.contains(BaseServicesConstants.httpsProtocol) else {
-            let errorMessage = String(format: ServiceErrorDescriptions.BadURLFormat, urlString)
-            executeOnMainThread {
+            let errorMessage = String(format: ServiceErrorDescriptions.badURLFormat, urlString)
+            Threading.executeOnMainThread {
                 completion(nil, BackendError.urlError(reason: errorMessage))
             }
             return
@@ -44,7 +44,7 @@ class BaseServices: NSObject {
         let dataTask = session.dataTask(with: url) { (data: Data?, response: URLResponse?, error: Error?) in
             guard error == nil else {
                 print("Failed to download from \(String(describing: response?.url)), reason \(String(describing: error?.localizedDescription))")
-                executeOnMainThread {
+                Threading.executeOnMainThread {
                     completion(nil, error)
                 }
                 return
@@ -62,8 +62,8 @@ class BaseServices: NSObject {
         toggleNetworkActivityIndicator(on: false)
         
         guard let responseData = data else {
-            executeOnMainThread {
-                completion(nil, BackendError.objectSerialization(reason: ServiceErrorDescriptions.NoDataReceived))
+            Threading.executeOnMainThread {
+                completion(nil, BackendError.objectSerialization(reason: ServiceErrorDescriptions.noDataReceived))
             }
             return
         }
@@ -76,23 +76,19 @@ class BaseServices: NSObject {
         
         do {
             let decodedModel = try decoder.decode(T.self, from: data)
-            executeOnMainThread {
+            Threading.executeOnMainThread {
                 completion(decodedModel, nil)
             }
         } catch {
             let typeString = "\(T.self)"
-            executeOnMainThread {
-                completion(nil, BackendError.objectSerialization(reason: String(format: ServiceErrorDescriptions.DeserializationError, typeString)))
+            Threading.executeOnMainThread {
+                completion(nil, BackendError.objectSerialization(reason: String(format: ServiceErrorDescriptions.deserializationError, typeString)))
             }
         }
     }
     
-    fileprivate static func executeOnMainThread(closure: @escaping () -> Void) {
-        DispatchQueue.main.async(execute: closure)
-    }
-    
     fileprivate static func toggleNetworkActivityIndicator(on: Bool) {
-        executeOnMainThread {
+        Threading.executeOnMainThread {
             UIApplication.shared.isNetworkActivityIndicatorVisible = on
         }
     }

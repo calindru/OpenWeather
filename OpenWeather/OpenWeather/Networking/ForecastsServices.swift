@@ -20,9 +20,6 @@ class ForecastsServices: BaseServices {
         let urlString = String(format: ForecastsServicesConstants.OpenWeatherURLFormat, city, countryCode)
         
         callService(from: urlString, completion: completion)
-//        { (response: [Forecast]?, error) in
-//            completion(response, nil)
-//        }
         
     }
 }

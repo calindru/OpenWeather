@@ -19,8 +19,10 @@ class ForecastsWebDataSource: ForecastsDataSource {
                 let forecastsViewModel = ForecastsViewModel(forecasts: forecasts, city: city)
                 strongSelf.forecastsViewModel = forecastsViewModel
                 completion(forecastsViewModel)
+                return
             }
-    
+            
+            completion(nil)
         }
     }
 }

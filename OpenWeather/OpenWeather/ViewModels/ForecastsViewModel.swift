@@ -18,6 +18,12 @@ protocol ForecastsViewModeling {
     func date(at index: Int) -> ForecastDate?
 }
 
+public enum ForecastsFileFields: Int {
+    case date = 0
+    case time
+    case temperature
+}
+
 struct ForecastsViewModel: ForecastsViewModeling {
     var dates = [ForecastDate]()
     var forecastViewModels = [ForecastDate: [ForecastViewModel]]()
@@ -30,9 +36,13 @@ struct ForecastsViewModel: ForecastsViewModeling {
         }()
     }
     
-    init(forecasts model: Forecasts, city: String) {
+    init() {
         dates = [ForecastDate]()
         forecastViewModels = [ForecastDate: [ForecastViewModel]]()
+    }
+    
+    init(forecasts model: Forecasts, city: String) {
+        self.init()
         
         for forecastData in model.list {
             let forecastViewModel = ForecastViewModel(forecast: forecastData, city: city)
@@ -43,6 +53,26 @@ struct ForecastsViewModel: ForecastsViewModeling {
             }
         }
     }
+    
+    init(csvString: String, separator: String, city: String) {
+        self.init()
+        
+        // Saved information format:
+        // date, time, temperature
+        // eg. 2017-07-23, 09:00:00, 291.12
+        let forecastEntries = csvString.components(separatedBy: CharacterSet.newlines)
+        
+        for forecast in forecastEntries {
+            let forecastViewModel = ForecastViewModel(csvString: forecast, separator: separator, city: city)
+            let forecastDetails = forecast.components(separatedBy: separator)
+            if forecastDetails.count > ForecastsFileFields.date.rawValue {
+                let forecastDate = forecastDetails[ForecastsFileFields.date.rawValue]
+                add(forecastViewModel: forecastViewModel, date: forecastDate)
+            }
+        }
+    }
+    
+    // MARK: - Internal methods
     
     func numberOfRows() -> Int {
         return dates.count
@@ -71,6 +101,25 @@ struct ForecastsViewModel: ForecastsViewModeling {
         guard index < dates.count else { return nil }
         
         return dates[index]
+    }
+    
+    func csvSerializedString(separator: String) -> String {
+        // Saved information format:
+        // date, time, temperature
+        // eg. 2017-07-23, 09:00:00, 291.12
+
+        var serializedString = ""
+        
+        for date in dates {
+            guard let forecastsGrouping = forecastViewModels[date] else { return "" }
+            
+            for forecastViewModel in forecastsGrouping {
+                let forecastSerializedString = forecastViewModel.csvSerializedString(separator: separator)
+                serializedString += date + separator + forecastSerializedString + "\n"
+            }
+        }
+        
+        return serializedString
     }
     
     // MARK: - Private methods
