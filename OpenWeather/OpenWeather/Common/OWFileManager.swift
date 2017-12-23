@@ -28,15 +28,20 @@ class OWFileManager {
     // MARK: - Public methods
     
     public class func write(text: String, to relativePath: String) -> FileError? {
-        guard let completePathURL = completeURLPath(relativePath: relativePath) else {
+        guard let completeURL = completeURLPath(relativePath: relativePath), completeURL.pathExtension.count > 0 else {
             return FileError.fileOperation(reason: String(format: FileErrorDescriptions.invalidFilepath, relativePath))
         }
         
-        let data = text.data(using: String.Encoding.utf8)
-        FileManager.default.createFile(atPath: completePathURL.path, contents: data, attributes: nil)
+        do {
+            let parentDirectoryURL = completeURL.deletingLastPathComponent()
+            try FileManager.default.createDirectory(at: parentDirectoryURL, withIntermediateDirectories: true, attributes: nil)
+        }
+        catch {
+            return FileError.fileOperation(reason: String(format: FileErrorDescriptions.fileNotCreated, relativePath))
+        }
         
         do {
-            try text.write(to: completePathURL, atomically: true, encoding: String.Encoding.utf8)
+            try text.write(to: completeURL, atomically: true, encoding: String.Encoding.utf8)
         }
         catch {
             return FileError.fileOperation(reason: String(format: FileErrorDescriptions.writingFailed, relativePath))
