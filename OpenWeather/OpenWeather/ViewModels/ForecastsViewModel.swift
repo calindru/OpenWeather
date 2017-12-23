@@ -16,6 +16,7 @@ protocol ForecastsViewModeling {
     func numberOfCells(row: Int) -> Int
     func forecastViewModel(for indexPath: IndexPath) -> ForecastViewModel?
     func date(at index: Int) -> ForecastDate?
+    func csvSerializedString(separator: String) -> String
 }
 
 public enum ForecastsFileFields: Int {

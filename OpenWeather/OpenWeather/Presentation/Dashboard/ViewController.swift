@@ -23,7 +23,7 @@ class ViewController: UIViewController {
     
     var viewModel: ForecastsViewModeling? {
         didSet {
-            if let viewModel = viewModel as? ForecastsViewModel, !offlineMode {
+            if let viewModel = viewModel, !offlineMode {
                 ForecastsManager.persistForecasts(forecasts: viewModel)
             }
         }

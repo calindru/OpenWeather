@@ -15,7 +15,7 @@ protocol ForecastsDataSourcing: UICollectionViewDataSource {
 }
 
 class ForecastsDataSource: NSObject, UICollectionViewDataSource, ForecastsDataSourcing {
-    var forecastsViewModel: ForecastsViewModel?
+    var forecastsViewModel: ForecastsViewModeling?
 
     fileprivate struct Constants {
         static let forecastsCellReuseIdentifier = "ForecastCell"
