@@ -12,7 +12,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var forecastsCollection: UICollectionView?
     @IBOutlet weak var offlineSwitch: UISwitch?
     
-    var forecasts = [Forecast]()
     var offlineMode: Bool {
         get {
             return offlineSwitch?.isOn ?? false
@@ -21,18 +20,10 @@ class ViewController: UIViewController {
     
     var dataSource: ForecastsDataSource!
     
-    var viewModel: ForecastsViewModeling? {
-        didSet {
-            if let viewModel = viewModel, !offlineMode {
-                ForecastsManager.persistForecasts(forecasts: viewModel)
-            }
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        reloadForecastsViews(offline: offlineSwitch?.isOn ?? false)
+        reloadForecastsViews(offline: offlineMode)
     }
 
     // MARK: - User actions
@@ -44,9 +35,7 @@ class ViewController: UIViewController {
     // MARK: - Private methods
     
     fileprivate func fillUI() {        
-        guard isViewLoaded, viewModel != nil else {
-            return
-        }
+        guard isViewLoaded else { return }
         
         forecastsCollection?.reloadData()
     }
@@ -54,10 +43,9 @@ class ViewController: UIViewController {
     fileprivate func reloadForecastsViews(offline: Bool) {
         guard let collectionView = forecastsCollection else { return }
         
-        dataSource = offline ? ForecastsLocalDataSource(collectionView: collectionView) : ForecastsWebDataSource(collectionView: collectionView)
-        dataSource.getForecasts(completion: { [weak self] (viewModel: ForecastsViewModeling?) in
+        ForecastsManager.retrieveForecasts(offline: offline, completion: { [weak self] (viewModel: ForecastsViewModeling?) in
             guard let strongSelf = self else { return }
-            strongSelf.viewModel = viewModel
+            strongSelf.dataSource = ForecastsDataSource(collectionView: collectionView, forecasts: viewModel)
             strongSelf.fillUI()
         })
     }

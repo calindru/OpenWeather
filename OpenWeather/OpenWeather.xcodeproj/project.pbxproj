@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		FA02EBDB1FE6AF2B001AE0CC /* Forecasts.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA02EBDA1FE6AF2B001AE0CC /* Forecasts.swift */; };
 		FA02EBDD1FE70C48001AE0CC /* ForecastMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA02EBDC1FE70C48001AE0CC /* ForecastMain.swift */; };
-		FA02EBDF1FE7165E001AE0CC /* ForecastsLocalDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA02EBDE1FE7165E001AE0CC /* ForecastsLocalDataSource.swift */; };
-		FA02EBE11FE71673001AE0CC /* ForecastsWebDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA02EBE01FE71673001AE0CC /* ForecastsWebDataSource.swift */; };
 		FA02EBE61FE722D3001AE0CC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA02EBE51FE722D3001AE0CC /* Constants.swift */; };
 		FA02EBEB1FE73B45001AE0CC /* ForecastsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA02EBEA1FE73B45001AE0CC /* ForecastsViewModel.swift */; };
 		FA02EBED1FE740F1001AE0CC /* ForecastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA02EBEC1FE740F1001AE0CC /* ForecastViewModel.swift */; };
@@ -54,8 +52,6 @@
 /* Begin PBXFileReference section */
 		FA02EBDA1FE6AF2B001AE0CC /* Forecasts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Forecasts.swift; sourceTree = "<group>"; };
 		FA02EBDC1FE70C48001AE0CC /* ForecastMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastMain.swift; sourceTree = "<group>"; };
-		FA02EBDE1FE7165E001AE0CC /* ForecastsLocalDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastsLocalDataSource.swift; sourceTree = "<group>"; };
-		FA02EBE01FE71673001AE0CC /* ForecastsWebDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastsWebDataSource.swift; sourceTree = "<group>"; };
 		FA02EBE51FE722D3001AE0CC /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		FA02EBEA1FE73B45001AE0CC /* ForecastsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastsViewModel.swift; sourceTree = "<group>"; };
 		FA02EBEC1FE740F1001AE0CC /* ForecastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastViewModel.swift; sourceTree = "<group>"; };
@@ -136,8 +132,6 @@
 				FA4719901FD89EBE00365A40 /* ForecastCollectionViewCell.xib */,
 				FA02EBF51FE9D968001AE0CC /* ForecastsCollectionViewHeader.swift */,
 				FA47198C1FD89D8B00365A40 /* ForecastsDataSource.swift */,
-				FA02EBDE1FE7165E001AE0CC /* ForecastsLocalDataSource.swift */,
-				FA02EBE01FE71673001AE0CC /* ForecastsWebDataSource.swift */,
 			);
 			path = Forecasts;
 			sourceTree = "<group>";
@@ -400,9 +394,7 @@
 				FAA16D871FD88B9900CDFA3E /* ViewController.swift in Sources */,
 				FA47198D1FD89D8B00365A40 /* ForecastsDataSource.swift in Sources */,
 				FA02EBDD1FE70C48001AE0CC /* ForecastMain.swift in Sources */,
-				FA02EBDF1FE7165E001AE0CC /* ForecastsLocalDataSource.swift in Sources */,
 				FA4719A41FDDD8A700365A40 /* BaseModel.swift in Sources */,
-				FA02EBE11FE71673001AE0CC /* ForecastsWebDataSource.swift in Sources */,
 				FA02EBF61FE9D968001AE0CC /* ForecastsCollectionViewHeader.swift in Sources */,
 				FAB682591FEC851100ED3161 /* Threading.swift in Sources */,
 				FAB682571FEC6E4E00ED3161 /* ForecastsManager.swift in Sources */,

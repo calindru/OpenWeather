@@ -22,9 +22,10 @@ class ForecastsDataSource: NSObject, UICollectionViewDataSource, ForecastsDataSo
         static let forecastsHeaderReuseIdentifier = "ForecastsHeader"
     }
     
-    init(collectionView: UICollectionView) {
+    init(collectionView: UICollectionView, forecasts: ForecastsViewModeling?) {
         super.init()
         collectionView.dataSource = self
+        forecastsViewModel = forecasts
     }
     
     // MARK: - ForecastsDataSourcing methods
