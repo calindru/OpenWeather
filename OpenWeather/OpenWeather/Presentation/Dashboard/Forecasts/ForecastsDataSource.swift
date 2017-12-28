@@ -10,11 +10,7 @@ import UIKit
 
 typealias ForecastsViewModelCompletion = (ForecastsViewModeling?) -> Void
 
-protocol ForecastsDataSourcing: UICollectionViewDataSource {
-    func getForecasts(completion: @escaping ForecastsViewModelCompletion)
-}
-
-class ForecastsDataSource: NSObject, UICollectionViewDataSource, ForecastsDataSourcing {
+class ForecastsDataSource: NSObject, UICollectionViewDataSource {
     var forecastsViewModel: ForecastsViewModeling?
 
     fileprivate struct Constants {
@@ -26,12 +22,6 @@ class ForecastsDataSource: NSObject, UICollectionViewDataSource, ForecastsDataSo
         super.init()
         collectionView.dataSource = self
         forecastsViewModel = forecasts
-    }
-    
-    // MARK: - ForecastsDataSourcing methods
-    
-    func getForecasts(completion: @escaping ForecastsViewModelCompletion) {
-        
     }
     
     // MARK: - UICollectionViewDataSource methods
@@ -47,6 +37,10 @@ class ForecastsDataSource: NSObject, UICollectionViewDataSource, ForecastsDataSo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.forecastsCellReuseIdentifier,
                                                          for: indexPath) as! ForecastCollectionViewCell
+        if cell.layer.borderWidth != 1 {
+            cell.layer.borderColor = UIColor.darkGray.cgColor
+            cell.layer.borderWidth = 1
+        }
         
         let forecastViewModel = forecastsViewModel?.forecastViewModel(for: indexPath)
         cell.temperatureLabel.text = forecastViewModel?.temperature
