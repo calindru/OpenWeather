@@ -18,8 +18,8 @@ class ForecastsServices: BaseServices {
     
     public static func getForecasts(city: String, countryCode: String, completion: @escaping ForecastsResponse) {
         let urlString = String(format: ForecastsServicesConstants.OpenWeatherURLFormat, city, countryCode)
+        let escapedURLString = urlEncoded(url: urlString)
         
-        callService(from: urlString, completion: completion)
-        
+        callService(from: escapedURLString, completion: completion)
     }
 }

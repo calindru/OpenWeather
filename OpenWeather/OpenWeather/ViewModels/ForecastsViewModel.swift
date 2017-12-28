@@ -64,9 +64,9 @@ struct ForecastsViewModel: ForecastsViewModeling {
         let forecastEntries = csvString.components(separatedBy: CharacterSet.newlines)
         
         for forecast in forecastEntries {
-            let forecastViewModel = ForecastViewModel(csvString: forecast, separator: separator, city: city)
             let forecastDetails = forecast.components(separatedBy: separator)
             if forecastDetails.count > ForecastsFileFields.date.rawValue {
+                let forecastViewModel = ForecastViewModel(csvString: forecast, separator: separator, city: city)
                 let forecastDate = forecastDetails[ForecastsFileFields.date.rawValue]
                 add(forecastViewModel: forecastViewModel, date: forecastDate)
             }
@@ -126,6 +126,8 @@ struct ForecastsViewModel: ForecastsViewModeling {
     // MARK: - Private methods
     
     fileprivate mutating func add(forecastViewModel: ForecastViewModel, date: ForecastDate) {
+        guard !date.isEmpty else { return }
+        
         var forecastsGrouping: [ForecastViewModel]
         
         if let forecasts = forecastViewModels[date] {

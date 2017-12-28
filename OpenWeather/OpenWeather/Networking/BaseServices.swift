@@ -28,6 +28,8 @@ class BaseServices: NSObject {
         static let deserializationError = "Unable to deserialize to type %@"
     }
     
+    // MARK: - Public methods
+    
     static func callService<T: Decodable>(from urlString: String, completion: @escaping URLRequestClosure<T>) -> Void {
         let lowercaseURL = urlString.lowercased()
         
@@ -45,6 +47,7 @@ class BaseServices: NSObject {
             guard error == nil else {
                 print("Failed to download from \(String(describing: response?.url)), reason \(String(describing: error?.localizedDescription))")
                 Threading.executeOnMainThread {
+                    toggleNetworkActivityIndicator(on: false)
                     completion(nil, error)
                 }
                 return
@@ -54,6 +57,25 @@ class BaseServices: NSObject {
         }
         
         dataTask.resume()
+    }
+    
+    static func urlEncoded(url: String) -> String {
+        var urlBody = url
+        var urlSchema = BaseServicesConstants.httpProtocol
+        
+        if let headRange = url.range(of: urlSchema) {
+            urlBody = url.replacingCharacters(in: headRange, with: "")
+        } else if let headRange = url.range(of: BaseServicesConstants.httpsProtocol) {
+            urlSchema = BaseServicesConstants.httpsProtocol
+            urlBody = url.replacingCharacters(in: headRange, with: "")
+        }
+        
+        var allowedCharacters = CharacterSet.urlPathAllowed
+        allowedCharacters.formUnion(CharacterSet.urlQueryAllowed)
+        allowedCharacters.formUnion(CharacterSet.urlHostAllowed)
+        
+        let escapedURLBody = urlBody.addingPercentEncoding(withAllowedCharacters: allowedCharacters) ?? ""
+        return urlSchema + escapedURLBody
     }
     
     // MARK: - Private methods

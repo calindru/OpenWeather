@@ -17,8 +17,8 @@ class ForecastsManager {
     
     // MARK: - Public methods
     
-    public class func persistForecasts(forecasts: ForecastsViewModeling) {
-        let csvString = forecasts.csvSerializedString(separator: Constants.csvSeparator)
+    public class func persistForecasts(forecasts: ForecastsViewModeling?) {
+        let csvString = forecasts?.csvSerializedString(separator: Constants.csvSeparator) ?? ""
         _ = OWFileManager.write(text: csvString, to: Constants.forecastsFilePath)
     }
     
