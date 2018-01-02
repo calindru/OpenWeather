@@ -8,6 +8,8 @@
 
 import XCTest
 
+@testable import OpenWeather
+
 class OWFileManagerTests: XCTestCase {
     
     override func setUp() {
@@ -20,16 +22,50 @@ class OWFileManagerTests: XCTestCase {
         super.tearDown()
     }
     
-    func testCompleteURLPath_() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testWrite_emptyPath() {
+        let error = OWFileManager.write(text: "", to: "")
+        XCTAssertNotNil(error)
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    func testWrite_pathHasNoFile() {
+        let error = OWFileManager.write(text: "", to: "/Directory1")
+        XCTAssertNotNil(error)
     }
     
+    func testWrite_canCreateNewDirectories() {
+        let error = OWFileManager.write(text: "", to: "/Directory1/Directory2/test.txt")
+        XCTAssertNil(error)
+    }
+    
+    func testWrite_pathDoesntNeedToStartWithSlash() {
+        let error = OWFileManager.write(text: "", to: "/test.txt")
+        XCTAssertNil(error)
+        let error2 = OWFileManager.write(text: "", to: "test.txt")
+        XCTAssertNil(error2)
+    }
+    
+    func testRead_fileNotFound() {
+        let readText = OWFileManager.read(relativePath: "file/not/found/path/txt.file")
+        XCTAssertNil(readText)
+    }
+    
+    func testReadWrite_fullCycle() {
+        let path = "/Directory1/test.txt"
+        let writtenText = "To be or not to be?"
+        let writeError = OWFileManager.write(text: writtenText, to: path)
+        XCTAssertNil(writeError)
+        let readText = OWFileManager.read(relativePath: path)
+        XCTAssertEqual(writtenText, readText)
+    }
+    
+    func testReadWrite_overwriteExistingFile() {
+        let path = "test.txt"
+        let error1 = OWFileManager.write(text: "oldText", to: path)
+        XCTAssertNil(error1)
+        let newText = "asdf"
+        let error2 = OWFileManager.write(text: newText, to: path)
+        XCTAssertNil(error2)
+        let readText = OWFileManager.read(relativePath: path)
+        XCTAssertEqual(readText, newText)
+    }
 }

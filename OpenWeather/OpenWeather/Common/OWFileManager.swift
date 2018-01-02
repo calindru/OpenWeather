@@ -29,7 +29,7 @@ class OWFileManager {
     
     public class func write(text: String, to relativePath: String) -> FileError? {
         guard let completeURL = completeURLPath(relativePath: relativePath), completeURL.pathExtension.count > 0 else {
-            return FileError.fileOperation(reason: String(format: FileErrorDescriptions.invalidFilepath, relativePath))
+            return FileError.urlError(reason: String(format: FileErrorDescriptions.invalidFilepath, relativePath))
         }
         
         do {
