@@ -14,6 +14,7 @@ class ForecastsCollectionViewHeader: UICollectionReusableView, UICollectionViewD
     
     var forecastsViewModel: ForecastsViewModeling? {
         didSet {
+            forecastDayCollectionView.reloadData()
             forecastDayCollectionView.dataSource = self
         }
     }
