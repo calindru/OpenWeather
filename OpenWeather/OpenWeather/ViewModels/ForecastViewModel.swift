@@ -14,7 +14,10 @@ protocol ForecastViewModeling {
     var time: String { get }
     var forecastDate: Date? { get set }
     
-    init(forecast: Forecast, city: String)
+    func csvSerializedString(separator: String) -> String
+    
+    static func forecastViewModel(forecast: Forecast, city: String) -> ForecastViewModeling
+    static func forecastViewModel(csvString: String, separator: String, city: String) -> ForecastViewModeling
 }
 
 struct ForecastViewModel: ForecastViewModeling {
@@ -31,30 +34,36 @@ struct ForecastViewModel: ForecastViewModeling {
         }()
     }
     
-    init(forecast: Forecast, city: String) {
-        self.city = city
+    static func forecastViewModel(forecast: Forecast, city: String) -> ForecastViewModeling {
+        var forecastViewModel = ForecastViewModel()
+        forecastViewModel.city = city
         
         if let daytime = forecast.dt {
             let date = Date(timeIntervalSince1970: Double(daytime))
-            forecastDate = date
-            self.time = Formatter.timeFormatter.string(from: date)
+            forecastViewModel.forecastDate = date
+            forecastViewModel.time = Formatter.timeFormatter.string(from: date)
         }
         
         if let main = forecast.main {
-            self.temperature = String(main.temp)
+            forecastViewModel.temperature = String(main.temp)
         }
+        
+        return forecastViewModel
     }
     
-    init(csvString: String, separator: String, city: String) {
-        self.city = city
+    static func forecastViewModel(csvString: String, separator: String, city: String) -> ForecastViewModeling {
+        var forecastViewModel = ForecastViewModel()
+        forecastViewModel.city = city
         
         let forecastDetails = csvString.components(separatedBy: separator)
         if forecastDetails.count > ForecastsFileFields.time.rawValue {
-            time = forecastDetails[ForecastsFileFields.time.rawValue]
+            forecastViewModel.time = forecastDetails[ForecastsFileFields.time.rawValue]
         }
         if forecastDetails.count > ForecastsFileFields.temperature.rawValue {
-            temperature = forecastDetails[ForecastsFileFields.temperature.rawValue]
+           forecastViewModel.temperature = forecastDetails[ForecastsFileFields.temperature.rawValue]
         }
+        
+        return forecastViewModel
     }
     
     func csvSerializedString(separator: String) -> String {

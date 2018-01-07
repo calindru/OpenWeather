@@ -11,10 +11,11 @@ import Foundation
 typealias ForecastDate = String
 
 protocol ForecastsViewModeling {
-    init(forecasts: Forecasts, city: String)
+    static func forecastsViewModel(forecasts: Forecasts, city: String) -> ForecastsViewModeling
+    static func forecastsViewModel(csvString: String, separator: String, city: String) -> ForecastsViewModeling
     func numberOfRows() -> Int
     func numberOfCells(row: Int) -> Int
-    func forecastViewModel(for indexPath: IndexPath) -> ForecastViewModel?
+    func forecastViewModel(for indexPath: IndexPath) -> ForecastViewModeling?
     func date(at index: Int) -> ForecastDate?
     func csvSerializedString(separator: String) -> String
 }
@@ -27,7 +28,7 @@ public enum ForecastsFileFields: Int {
 
 struct ForecastsViewModel: ForecastsViewModeling {
     var dates = [ForecastDate]()
-    var forecastViewModels = [ForecastDate: [ForecastViewModel]]()
+    var forecastViewModels = [ForecastDate: [ForecastViewModeling]]()
     
     struct Formatter {
         static let dateFormatter: DateFormatter = {
@@ -39,24 +40,26 @@ struct ForecastsViewModel: ForecastsViewModeling {
     
     init() {
         dates = [ForecastDate]()
-        forecastViewModels = [ForecastDate: [ForecastViewModel]]()
+        forecastViewModels = [ForecastDate: [ForecastViewModeling]]()
     }
     
-    init(forecasts model: Forecasts, city: String) {
-        self.init()
+    static func forecastsViewModel(forecasts: Forecasts, city: String) -> ForecastsViewModeling {
+        var forecastsViewModel = ForecastsViewModel()
         
-        for forecastData in model.list {
-            let forecastViewModel = ForecastViewModel(forecast: forecastData, city: city)
+        for forecastData in forecasts.list {
+            let forecastViewModel = ForecastViewModel.forecastViewModel(forecast: forecastData, city: city)
             if let forecastDate = forecastViewModel.forecastDate {
                 let datePretty = Formatter.dateFormatter.string(from: forecastDate)
                 
-                add(forecastViewModel: forecastViewModel, date: datePretty)
+                forecastsViewModel.add(forecastViewModel: forecastViewModel, date: datePretty)
             }
         }
+        
+        return forecastsViewModel
     }
     
-    init(csvString: String, separator: String, city: String) {
-        self.init()
+    static func forecastsViewModel(csvString: String, separator: String, city: String) -> ForecastsViewModeling {
+        var forecastsViewModel = ForecastsViewModel()
         
         // Saved information format:
         // date, time, temperature
@@ -66,11 +69,14 @@ struct ForecastsViewModel: ForecastsViewModeling {
         for forecast in forecastEntries {
             let forecastDetails = forecast.components(separatedBy: separator)
             if forecastDetails.count > ForecastsFileFields.date.rawValue {
-                let forecastViewModel = ForecastViewModel(csvString: forecast, separator: separator, city: city)
+                var forecastViewModel = ForecastViewModel.forecastViewModel(csvString: forecast, separator: separator, city: city)
                 let forecastDate = forecastDetails[ForecastsFileFields.date.rawValue]
-                add(forecastViewModel: forecastViewModel, date: forecastDate)
+                forecastViewModel.forecastDate = Formatter.dateFormatter.date(from: forecastDate)
+                forecastsViewModel.add(forecastViewModel: forecastViewModel, date: forecastDate)
             }
         }
+        
+        return forecastsViewModel
     }
     
     // MARK: - Internal methods
@@ -87,7 +93,7 @@ struct ForecastsViewModel: ForecastsViewModeling {
         return 0
     }
     
-    func forecastViewModel(for indexPath: IndexPath) -> ForecastViewModel? {
+    func forecastViewModel(for indexPath: IndexPath) -> ForecastViewModeling? {
         if let date = self.date(at: indexPath.section),
             let forecastsList = forecastViewModels[date],
             indexPath.row < forecastsList.count {
@@ -125,16 +131,16 @@ struct ForecastsViewModel: ForecastsViewModeling {
     
     // MARK: - Private methods
     
-    fileprivate mutating func add(forecastViewModel: ForecastViewModel, date: ForecastDate) {
+    fileprivate mutating func add(forecastViewModel: ForecastViewModeling, date: ForecastDate) {
         guard !date.isEmpty else { return }
         
-        var forecastsGrouping: [ForecastViewModel]
+        var forecastsGrouping: [ForecastViewModeling]
         
         if let forecasts = forecastViewModels[date] {
             forecastsGrouping = forecasts
         } else {
             dates.append(date)
-            forecastsGrouping = [ForecastViewModel]()
+            forecastsGrouping = [ForecastViewModeling]()
         }
         
         forecastsGrouping.append(forecastViewModel)

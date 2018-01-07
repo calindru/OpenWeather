@@ -13,7 +13,7 @@ class ForecastsWebRetriever: ForecastsResourceRetriever {
         ForecastsServices.getForecasts(city: city, countryCode: ForecastsConstants.forecastsCountryCode) { (receivedForecasts: Forecasts?, error: Error?) in
             let resource = ForecastsResources.web
             if let forecasts = receivedForecasts {
-                let forecastsViewModel = ForecastsViewModel(forecasts: forecasts, city: city)
+                let forecastsViewModel = ForecastsViewModel.forecastsViewModel(forecasts: forecasts, city: city)
                 completion(forecastsViewModel, resource)
                 return
             }

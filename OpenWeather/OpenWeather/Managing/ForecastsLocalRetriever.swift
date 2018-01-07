@@ -13,7 +13,7 @@ class ForecastsLocalRetriever: ForecastsResourceRetriever {
     func getForecasts(city: String, completion: @escaping ForecastsRetrieverCompletion) {
         Threading.executeOnSecondaryThread {
             let fileContent = OWFileManager.read(relativePath: ForecastsManager.Constants.forecastsFilePath)
-            let forecastsViewModel = ForecastsViewModel(csvString: fileContent ?? "", separator: ForecastsConstants.csvSeparator, city: city)
+            let forecastsViewModel = ForecastsViewModel.forecastsViewModel(csvString: fileContent ?? "", separator: ForecastsConstants.csvSeparator, city: city)
             
             Threading.executeOnMainThread {
                 completion(forecastsViewModel, ForecastsResources.local)
