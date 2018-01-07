@@ -12,24 +12,20 @@ class ViewController: UIViewController {
     @IBOutlet weak var forecastsCollection: UICollectionView?
     @IBOutlet weak var offlineSwitch: UISwitch?
     
-    var offlineMode: Bool {
-        get {
-            return offlineSwitch?.isOn ?? false
-        }
-    }
-    
     var dataSource: ForecastsDataSource!
+    var forecastsResourceRetriever: ForecastsResourceRetriever = ForecastsWebRetriever()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        reloadForecastsViews(offline: offlineMode)
+        reloadForecastsViews()
     }
 
     // MARK: - User actions
     
     @IBAction func offlineSwitchWasChanged(sender: UISwitch) {
-        reloadForecastsViews(offline: sender.isOn)
+        forecastsResourceRetriever = (offlineSwitch?.isOn)! ? ForecastsLocalRetriever() : ForecastsWebRetriever()
+        reloadForecastsViews()
     }
     
     // MARK: - Private methods
@@ -40,10 +36,10 @@ class ViewController: UIViewController {
         forecastsCollection?.reloadData()
     }
     
-    fileprivate func reloadForecastsViews(offline: Bool) {
+    fileprivate func reloadForecastsViews() {
         guard let collectionView = forecastsCollection else { return }
         
-        ForecastsManager.retrieveForecasts(offline: offline, completion: { [weak self] (viewModel: ForecastsViewModeling?) in
+        ForecastsManager.retrieveForecasts(resourceStrategy: forecastsResourceRetriever, completion: { [weak self] (viewModel: ForecastsViewModeling?) in
             guard let strongSelf = self else { return }
             strongSelf.dataSource = ForecastsDataSource(collectionView: collectionView, forecasts: viewModel)
             strongSelf.fillUI()
