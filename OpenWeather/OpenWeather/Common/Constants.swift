@@ -9,6 +9,7 @@
 import Foundation
 
 struct ForecastsConstants {
-    static let ForecastsCity = "London"
-    static let ForecastsCountryCode = "UK"
+    static let forecastsCity = "London"
+    static let forecastsCountryCode = "UK"
+    static let csvSeparator = ", "
 }
