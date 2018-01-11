@@ -22,6 +22,8 @@
 		FA4DE8E02001AA5900B07EC6 /* ForecastsLocalRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4DE8DF2001AA5900B07EC6 /* ForecastsLocalRetriever.swift */; };
 		FA4DE8E22001AA7F00B07EC6 /* ForecastsWebRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4DE8E12001AA7F00B07EC6 /* ForecastsWebRetriever.swift */; };
 		FA4DE8E42006D34700B07EC6 /* ForecastsManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4DE8E32006D34700B07EC6 /* ForecastsManagerTests.swift */; };
+		FA4DE8E82007E68400B07EC6 /* ForecastsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4DE8E72007E68400B07EC6 /* ForecastsViewModelTests.swift */; };
+		FA4DE8EB200802B600B07EC6 /* ForecastsDummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4DE8EA200802B600B07EC6 /* ForecastsDummyData.swift */; };
 		FA541D4B1FEC2BC300BFB509 /* OWFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA541D4A1FEC2BC300BFB509 /* OWFileManager.swift */; };
 		FAA16D851FD88B9900CDFA3E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA16D841FD88B9900CDFA3E /* AppDelegate.swift */; };
 		FAA16D871FD88B9900CDFA3E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA16D861FD88B9900CDFA3E /* ViewController.swift */; };
@@ -68,6 +70,8 @@
 		FA4DE8DF2001AA5900B07EC6 /* ForecastsLocalRetriever.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastsLocalRetriever.swift; sourceTree = "<group>"; };
 		FA4DE8E12001AA7F00B07EC6 /* ForecastsWebRetriever.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastsWebRetriever.swift; sourceTree = "<group>"; };
 		FA4DE8E32006D34700B07EC6 /* ForecastsManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastsManagerTests.swift; sourceTree = "<group>"; };
+		FA4DE8E72007E68400B07EC6 /* ForecastsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastsViewModelTests.swift; sourceTree = "<group>"; };
+		FA4DE8EA200802B600B07EC6 /* ForecastsDummyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastsDummyData.swift; sourceTree = "<group>"; };
 		FA541D4A1FEC2BC300BFB509 /* OWFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OWFileManager.swift; sourceTree = "<group>"; };
 		FAA16D811FD88B9900CDFA3E /* OpenWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAA16D841FD88B9900CDFA3E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -168,6 +172,31 @@
 			path = Forecasts;
 			sourceTree = "<group>";
 		};
+		FA4DE8E52007E42000B07EC6 /* Managing */ = {
+			isa = PBXGroup;
+			children = (
+				FA4DE8E32006D34700B07EC6 /* ForecastsManagerTests.swift */,
+			);
+			path = Managing;
+			sourceTree = "<group>";
+		};
+		FA4DE8E62007E4F200B07EC6 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				FA4DE8E92008026F00B07EC6 /* DummyData */,
+				FA4DE8E72007E68400B07EC6 /* ForecastsViewModelTests.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		FA4DE8E92008026F00B07EC6 /* DummyData */ = {
+			isa = PBXGroup;
+			children = (
+				FA4DE8EA200802B600B07EC6 /* ForecastsDummyData.swift */,
+			);
+			path = DummyData;
+			sourceTree = "<group>";
+		};
 		FAA16D781FD88B9900CDFA3E = {
 			isa = PBXGroup;
 			children = (
@@ -207,7 +236,8 @@
 		FAA16D981FD88B9900CDFA3E /* OpenWeatherTests */ = {
 			isa = PBXGroup;
 			children = (
-				FA4DE8E32006D34700B07EC6 /* ForecastsManagerTests.swift */,
+				FA4DE8E62007E4F200B07EC6 /* ViewModels */,
+				FA4DE8E52007E42000B07EC6 /* Managing */,
 				FAA16D9B1FD88B9900CDFA3E /* Info.plist */,
 				FAA16D991FD88B9900CDFA3E /* OpenWeatherTests.swift */,
 				FABDB58B1FF50E91008E053E /* OWFileManagerTests.swift */,
@@ -423,8 +453,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA4DE8E42006D34700B07EC6 /* ForecastsManagerTests.swift in Sources */,
+				FA4DE8E82007E68400B07EC6 /* ForecastsViewModelTests.swift in Sources */,
 				FAA16D9A1FD88B9900CDFA3E /* OpenWeatherTests.swift in Sources */,
 				FABDB58C1FF50E91008E053E /* OWFileManagerTests.swift in Sources */,
+				FA4DE8EB200802B600B07EC6 /* ForecastsDummyData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

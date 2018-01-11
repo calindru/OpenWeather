@@ -69,10 +69,15 @@ struct ForecastsViewModel: ForecastsViewModeling {
         for forecast in forecastEntries {
             let forecastDetails = forecast.components(separatedBy: separator)
             if forecastDetails.count > ForecastsFileFields.date.rawValue {
+                let forecastDateString = forecastDetails[ForecastsFileFields.date.rawValue]
+                guard let forecastDate = Formatter.dateFormatter.date(from: forecastDateString) else {
+                    continue
+                }
+                
                 var forecastViewModel = ForecastViewModel.forecastViewModel(csvString: forecast, separator: separator, city: city)
-                let forecastDate = forecastDetails[ForecastsFileFields.date.rawValue]
-                forecastViewModel.forecastDate = Formatter.dateFormatter.date(from: forecastDate)
-                forecastsViewModel.add(forecastViewModel: forecastViewModel, date: forecastDate)
+                
+                forecastViewModel.forecastDate = forecastDate
+                forecastsViewModel.add(forecastViewModel: forecastViewModel, date: forecastDateString)
             }
         }
         

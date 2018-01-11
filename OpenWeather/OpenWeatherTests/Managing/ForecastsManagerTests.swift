@@ -42,7 +42,7 @@ class ForecastsManagerTests: XCTestCase {
         
         ForecastsManager.retrieveForecasts(resourceStrategy: offlineRetriever) { (viewModel: ForecastsViewModeling?) in
             
-            if viewModel == nil {
+            if let forecastsViewModel = viewModel, forecastsViewModel.numberOfRows() == 0 {
                 expectation.fulfill()
             }
         }
