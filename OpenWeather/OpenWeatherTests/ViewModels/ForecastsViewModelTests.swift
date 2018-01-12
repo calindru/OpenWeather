@@ -13,7 +13,6 @@ import XCTest
 class ForecastsViewModelTests: XCTestCase {
     
     let city = ForecastsConstants.forecastsCity
-    let onlineForecastsData = ""
     
     override func setUp() {
         super.setUp()
